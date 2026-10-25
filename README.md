@@ -12,13 +12,42 @@ This project implements the **Strategy (Behavioral Design Pattern)** in Java. Th
 
 ## 2. UML Class Diagram Structure
 
-| Class / Interface | Type | Core Methods & Fields | Description |
-| :--- | :--- | :--- | :--- |
-| **`RouteStrategy`** | Interface | `String buildRoute(String start, String destination)` | Common interface declaring the algorithm execution method for all strategies. |
-| **`CarStrategy`** | Concrete Strategy | `buildRoute(String start, String destination)` | Implements route planning specifically optimized for automobiles (fastest highways, toll roads). |
-| **`BusStrategy`** | Concrete Strategy | `buildRoute(String start, String destination)` | Implements route planning via public transport (bus stops, timetables). |
-| **`Navigator`** | Context | `- RouteStrategy strategy`<br>`+ setStrategy(RouteStrategy strategy)`<br>`+ calculateRoute(String start, String destination)` | Maintains a reference to a strategy object and delegates the route computation task to it. Supports runtime switching. |
-| **`Main`** | Client | `+ main(String[] args)` | Instantiates strategies, configures the `Navigator` context, and demonstrates runtime switching and execution. |
+classDiagram
+    class RouteStrategy {
+        <<interface>>
+        +buildRoute(String start, String destination) String
+    }
+
+    class CarStrategy {
+        +buildRoute(String start, String destination) String
+    }
+
+    class BusStrategy {
+        +buildRoute(String start, String destination) String
+    }
+
+    class WalkStrategy {
+        +buildRoute(String start, String destination) String
+    }
+
+    class Navigator {
+        -RouteStrategy strategy
+        +Navigator(RouteStrategy strategy)
+        +setStrategy(RouteStrategy strategy)
+        +calculateRoute(String start, String destination) String
+    }
+
+    class Main {
+        +main(String[] args)
+    }
+
+    RouteStrategy <|.. CarStrategy : implements
+    RouteStrategy <|.. BusStrategy : implements
+    RouteStrategy <|.. WalkStrategy : implements
+    Navigator o--> RouteStrategy : uses
+    Main --> Navigator : creates
+    Main --> CarStrategy : instantiates
+    Main --> BusStrategy : instantiates
 
 ---
 
