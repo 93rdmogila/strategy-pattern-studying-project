@@ -12,42 +12,21 @@ This project implements the **Strategy (Behavioral Design Pattern)** in Java. Th
 
 ## 2. UML Class Diagram Structure
 
-classDiagram
-    class RouteStrategy {
-        <<interface>>
-        +buildRoute(String start, String destination) String
-    }
+[ Main (Client) ]
+       │
+       ▼ creates & configures
+[ Navigator (Context) ] ──────( delegates to )──────┐
+       │ (holds reference)                            │
+       ▼                                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 <<interface>> RouteStrategy                 │
+└─────────────────────────────────────────────────────────────┘
+       ▲                      ▲                      ▲
+       │ implements           │ implements           │ implements
+┌──────────────┐       ┌──────────────┐       ┌──────────────┐
+│ CarStrategy  │       │ BusStrategy  │       │ WalkStrategy │
+└──────────────┘       └──────────────┘       └──────────────┘
 
-    class CarStrategy {
-        +buildRoute(String start, String destination) String
-    }
-
-    class BusStrategy {
-        +buildRoute(String start, String destination) String
-    }
-
-    class WalkStrategy {
-        +buildRoute(String start, String destination) String
-    }
-
-    class Navigator {
-        -RouteStrategy strategy
-        +Navigator(RouteStrategy strategy)
-        +setStrategy(RouteStrategy strategy)
-        +calculateRoute(String start, String destination) String
-    }
-
-    class Main {
-        +main(String[] args)
-    }
-
-    RouteStrategy <|.. CarStrategy : implements
-    RouteStrategy <|.. BusStrategy : implements
-    RouteStrategy <|.. WalkStrategy : implements
-    Navigator o--> RouteStrategy : uses
-    Main --> Navigator : creates
-    Main --> CarStrategy : instantiates
-    Main --> BusStrategy : instantiates
 
 ---
 
